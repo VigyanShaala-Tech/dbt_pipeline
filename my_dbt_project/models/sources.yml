@@ -1,0 +1,18 @@
+version: 2
+sources:
+  - name: raw
+    schema: raw  # The schema where your raw data tables are stored
+    tables:
+      # @@TO-DO: specifify all the raw table names and schemas after loading those 15+ csv files
+      - name: cohort
+        description: "Cohort data from CSV file"    
+      - name: college_mapping
+        description: "standardised file for college data"
+      - name: course_mapping
+        description: "standardised file for courses"
+      - name: live_session
+        description: "live session information"
+      - name: location_mapping
+        description: "standardised file for locations data"
+      
+      # Add all raw schema's tables here.

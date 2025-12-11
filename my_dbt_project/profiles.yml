@@ -1,0 +1,12 @@
+my_dbt_project:
+  target: dev
+  outputs:
+    dev:
+      type: "db_type"
+      host: "db_host"
+      user: "db_user"
+      password: "db_password" 
+      port: "db_port"
+      dbname: "db_name"
+      schema: "db_schema"
+      threads: 4
