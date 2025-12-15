@@ -8,5 +8,5 @@ my_dbt_project:
       password: "db_password" 
       port: "db_port"
       dbname: "db_name"
-      schema: "db_schema"
+      schema: "db_schema"  -- replace it with "dev"
       threads: 4
