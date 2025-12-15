@@ -1,0 +1,68 @@
+# ---------------------------------
+# Python cache and compiled files
+# ---------------------------------
+__pycache__/
+*.py[cod]
+
+# ---------------------------------
+# Virtual environments
+# ---------------------------------
+venv/
+.venv/
+env/
+
+# ---------------------------------
+# Environment and credentials
+# ---------------------------------
+#.env                  # .env files are not ignored here because they contain **templatized** placeholder credentials that are required for others to run the code. Replace placeholders with real values locally.
+#*.env
+#connection.py         # contains only a **template structure** for DB credentials (no real secrets).
+config.yaml
+secrets.json
+credentials.json
+
+# ---------------------------------
+# Logs, monitoring & debug outputs
+# ---------------------------------
+*.log
+logs/
+debug/
+tmp/
+temp/
+
+# ---------------------------------
+# Packaging / build artifacts
+# ---------------------------------
+build/
+dist/
+*.egg-info/
+*.spec
+
+# ---------------------------------
+# Data / cache / reports (optional)
+# ---------------------------------
+*.csv
+*.xlsx
+*.db
+*.sqlite3
+
+# ---------------------------------
+# IDE / editor / OS files
+# ---------------------------------
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---------------------------------
+# Testing / coverage
+# ---------------------------------
+.pytest_cache/
+.cache/
+
+# ---------------------------------
+# Deployment / container files
+# ---------------------------------
+docker-compose.override.yml
+__pypackages__/
+*.tar

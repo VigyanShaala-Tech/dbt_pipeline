@@ -14,5 +14,30 @@ sources:
         description: "live session information"
       - name: location_mapping
         description: "standardised file for locations data"
-      
+      - name: mentor_details
+        description: "mentor registration information"
+      - name: program
+        description: "list of types of programs"
+      - name: referral_college_professor
+        description: "students referred mentors details information"
+      - name: resource
+        description: "provided material/resources information duringthe program"
+      - name: student_assignment
+        description: "student assignment submission details"
+      - name: student_details
+        description: "student personal information details"
+      - name: student_eduaction
+        description: "student education details"
+      - name: student_pre_recorded
+        description: "student pre_recorded sessions attendance details"
+      - name: student_quiz
+        description: "student quiz attempts details"
+      - name: student_registration_details
+        description: "student registration details"
+      - name: student_session
+        description: "student live sessions attendance details"
+      - name: subject_mapping
+        description: "standardised file for subjects data"
+      - name: university_mapping
+        description: "standardised file for universities data"
       # Add all raw schema's tables here.
