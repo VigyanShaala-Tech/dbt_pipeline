@@ -1,0 +1,93 @@
+WITH student_details AS (
+    SELECT
+        sd.id,
+        sd.email,
+        sd.caste,
+        sd.annual_family_income_inr,
+        sd.location_id,
+        CASE 
+            WHEN sc.cohort_code LIKE 'INC%' THEN 
+                'Incubator ' || (ltrim(substring(sc.cohort_code, 4), '0') || '.0')
+            WHEN sc.cohort_code LIKE 'ACC%' THEN 
+                'Accelerator ' || (ltrim(substring(sc.cohort_code, 4), '0') || '.0')
+            ELSE sc.cohort_code
+        END AS "Incubator_Batch"
+    FROM raw.student_details sd
+    LEFT JOIN raw.student_cohort sc
+        ON sd.id = sc.student_id
+
+),
+student_registration AS (
+    SELECT
+        student_id,
+        form_details
+                                       
+    FROM raw.student_registration_details
+),
+mapped_subjects AS (
+    SELECT 
+        se.student_id,
+        se.education_course_id,
+        cm.course_name,
+        colm.standard_college_names AS college_name,
+        um.standard_university_names AS university_name,
+        sm.education_category,
+        sm.subject_area,
+        sm.sub_field
+    FROM raw.student_education se
+    JOIN LATERAL unnest(se.subject_id) AS unnested_subject(subject_id) ON TRUE
+    JOIN raw.subject_mapping sm
+        ON unnested_subject.subject_id = sm.id
+    JOIN raw.course_mapping cm
+        ON se.education_course_id = cm.course_id
+    LEFT JOIN raw.college_mapping colm
+        ON se.college_id = colm.college_id
+    LEFT JOIN raw.university_mapping um
+        ON se.university_id = um.university_id
+),
+aggregated_subjects AS (
+    SELECT
+        student_id,
+        education_course_id,
+        string_agg(DISTINCT education_category, ', ') AS education_category,
+        string_agg(DISTINCT subject_area, ', ') AS subject_areas,
+        string_agg(DISTINCT sub_field, ', ') AS sub_fields_list
+    FROM mapped_subjects
+    GROUP BY student_id, education_course_id
+),
+non_aggregated AS (
+    SELECT DISTINCT
+        student_id,
+        education_course_id,
+        course_name,
+        college_name,
+        university_name
+    FROM mapped_subjects
+)
+SELECT
+    sd.id AS student_id,
+    sd.email,
+    sd.caste,
+    sd.annual_family_income_inr,
+    sd."Incubator_Batch",
+    lm.state_union_territory,
+    lm.district,
+    lm.country,
+    lm.city_category,
+    sr.form_details,
+    asub.education_category,
+    asub.subject_areas,
+    asub.sub_fields_list,
+    na.course_name,
+    na.college_name,
+    na.university_name
+FROM student_details sd
+LEFT JOIN student_registration sr
+    ON sd.id = sr.student_id
+LEFT JOIN raw.location_mapping lm
+    ON sd.location_id = lm.location_id
+LEFT JOIN aggregated_subjects asub
+    ON sd.id = asub.student_id
+LEFT JOIN non_aggregated na
+    ON sd.id = na.student_id
+    AND asub.education_course_id = na.education_course_id
