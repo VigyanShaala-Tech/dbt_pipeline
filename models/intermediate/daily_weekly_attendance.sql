@@ -46,9 +46,9 @@ student_attendance AS (
 
 student_registration AS (
     SELECT
-        student_id
-        --form_details
-    FROM raw.student_registration_details_2
+        student_id,
+        form_details
+    FROM raw.student_registration_details
 ),
 
 mapped_subjects AS (
@@ -104,7 +104,7 @@ SELECT
     sa.conducted_on,
     sa.attended_on,
     sa.duration_in_sec,
-    --sr.form_details,
+    sr.form_details,
     lm.state_union_territory,
     lm.district,
     lm.country,
