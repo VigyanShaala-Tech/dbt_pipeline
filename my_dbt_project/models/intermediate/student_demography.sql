@@ -22,7 +22,7 @@ student_registration AS (
         student_id,
         form_details
                                        
-    FROM raw.student_registration_details_2
+    FROM raw.student_registration_details
 ),
 mapped_subjects AS (
     SELECT 

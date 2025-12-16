@@ -19,17 +19,17 @@ WITH student_quiz AS (
         END AS "Incubator_Batch",
         sds.location_id
     FROM raw.student_quiz sd
-    JOIN raw.resource r
-        ON sd.resource_id = r.id
     JOIN raw.student_details sds
         ON sd.student_id = sds.id
+    JOIN raw.resource r
+        ON sd.resource_id = r.id
     LEFT JOIN raw.student_cohort sc
         ON sd.id = sc.student_id
     
 ),
 student_registration AS (
     SELECT student_id, form_details
-    FROM raw.student_registration_details_2
+    FROM raw.student_registration_details
 ),
 mapped_subjects AS (
     SELECT 
