@@ -21,10 +21,10 @@ WITH student_quiz AS (
     FROM raw.student_quiz sd
     JOIN raw.student_details sds
         ON sd.student_id = sds.id
+    LEFT JOIN raw.student_cohort sc
+        ON sd.student_id = sc.student_id
     JOIN raw.resource r
         ON sd.resource_id = r.id
-    LEFT JOIN raw.student_cohort sc
-        ON sd.id = sc.student_id
     
 ),
 student_registration AS (
