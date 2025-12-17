@@ -22,11 +22,11 @@ WITH student_assignment AS (
         sds.location_id
     FROM raw.student_assignment sd
     JOIN raw.student_details sds
-        ON sd.student_id = sds.id
-    JOIN raw.resource r
-        ON sd.resource_id = r.id                           
+        ON sd.student_id = sds.id                         
     LEFT JOIN raw.student_cohort sc
-        ON sd.id = sc.student_id
+        ON sd.student_id = sc.student_id
+    JOIN raw.resource r
+        ON sd.resource_id = r.id
     
 ),
 student_registration AS (

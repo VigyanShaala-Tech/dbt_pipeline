@@ -3,12 +3,7 @@
 ) }}
 
 
-WITH cohort_range AS (
-    SELECT cohort_code, start_date, end_date
-    FROM raw.cohort
-),
-
-live_sessions AS (
+WITH live_sessions AS (
     SELECT 
         ls.id,
         ls.session_name,
@@ -21,7 +16,7 @@ live_sessions AS (
 student_attendance AS (
     SELECT 
         sd.student_id,
-        CASE 
+        CASE
             WHEN sc.cohort_code LIKE 'INC%' THEN 
                 'Incubator ' || (ltrim(substring(sc.cohort_code, 4), '0') || '.0')
             ELSE sc.cohort_code
@@ -32,16 +27,15 @@ student_attendance AS (
         ls.code,
         ls.conducted_on,
         sd.duration_in_sec,
-        COALESCE(sd.watched_on::date, ls.conducted_on) AS attended_on
+        COALESCE(sd.watched_on::date, ls.conducted_on) 
+		AS attended_on
     FROM raw.student_session sd
     JOIN raw.student_details sdet
         ON sd.student_id = sdet.id
     LEFT JOIN raw.student_cohort sc
-        ON sd.id = sc.student_id
-    LEFT JOIN cohort_range c 
-        ON sc.cohort_code = c.cohort_code
-    LEFT JOIN live_sessions ls
-        ON sd.session_id = ls.id AND c.cohort_code = ls.cohort_code
+        ON sd.student_id = sc.student_id
+	INNER JOIN live_sessions ls
+        ON sd.session_id = ls.id AND sc.cohort_code = ls.cohort_code
 ),
 
 student_registration AS (
@@ -124,5 +118,4 @@ LEFT JOIN aggregated_subjects asub
     ON sa.student_id = asub.student_id
 LEFT JOIN non_aggregated na
     ON sa.student_id = na.student_id
-   AND asub.education_course_id = na.education_course_id
-   WHERE (split_part(sa."Incubator_Batch", ' ', 2))::numeric > 7
+    AND asub.education_course_id = na.education_course_id
