@@ -43,9 +43,9 @@ sources:
       - name: student_cohort
         description: "student cohort mapping details"
 
-- name: old
-    schema: old
-    tables:
-      - name: assignment_monitoring_data
-      - name: incubator_quiz_monitoring
-      - name: student_session_information
+  - name: old
+      schema: old
+      tables:
+        - name: assignment_monitoring_data
+        - name: incubator_quiz_monitoring
+        - name: student_session_information
