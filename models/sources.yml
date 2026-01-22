@@ -40,4 +40,5 @@ sources:
         description: "standardised file for subjects data"
       - name: university_mapping
         description: "standardised file for universities data"
-      # Add all raw schema's tables here.
+      - name: student_cohort
+        description: "student cohort mapping details"
