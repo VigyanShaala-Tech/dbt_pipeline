@@ -1,62 +1,71 @@
 {{ config(
-  materialized='table'
+    materialized='table'
 ) }}
 
-
-WITH student_demography AS (
-    SELECT 
-        student_id,
-        email,
-        caste,
-        annual_family_income_inr,
-        "Incubator_Batch",
-        state_union_territory,
-        district,
-        country,
-        city_category,
-        form_details,
-        education_category,
-        subject_areas,
-        sub_fields_list,
-        course_name,
-        college_name,
-        university_name
-    FROM intermediate.student_demography
-),
-student_registration_details AS (
-    SELECT 
-        srd.id,
-        srd.student_id,
-        srd.assigned_through,
-        srd.registration_date::TIMESTAMP AS registration_date
-    FROM raw.student_registration_details srd
-),
-student_details AS (
-    SELECT 
-        sd.id,
-        sd.email,
-        sd.phone
-    FROM raw.student_details sd
-)
 SELECT
-    sdm.student_id,
-    sdm.email,
-    sd.phone,
-    sdm.caste,
-    sdm.annual_family_income_inr,
-    sdm."Incubator_Batch",
-    sdm.state_union_territory,
-    sdm.district,
-    sdm.country,
-    sdm.city_category,
-    sdm.form_details,
-    sdm.education_category,
-    sdm.subject_areas,
-    sdm.sub_fields_list,
-    sdm.course_name,
-    sdm.college_name,
-    sdm.university_name,
-    srd.registration_date
-FROM student_demography sdm
-INNER JOIN student_details sd ON sdm.student_id = sd.id
-LEFT JOIN student_registration_details srd ON sd.id = srd.student_id
+    student_code,
+    student_id,
+    email,
+
+    /* Full Name */
+    TRIM(
+        CONCAT(
+            COALESCE(first_name, ''),
+            ' ',
+            COALESCE(last_name, '')
+        )
+    ) AS full_name,
+
+    phone,
+    cohort_code,
+    is_leader,
+    cohort_enroll_date,
+    date_of_birth,
+    caste,
+    annual_family_income_inr,
+    education_categories,
+    subject_areas,
+    sub_fields_list,
+
+    interest_education_categories,
+    interest_subject_areas,
+    interest_sub_fields_list,
+    course_name,
+
+    CASE
+        WHEN university_name IS NULL
+             OR TRIM(university_name) = ''
+        THEN new_university_name
+        ELSE university_name
+    END AS university_name,
+
+    CASE
+        WHEN college_name IS NULL
+             OR TRIM(college_name) = ''
+        THEN new_college_name
+        ELSE college_name
+    END AS college_name,
+
+    registration_date,
+    assigned_through,
+    currently_pursuing_year,
+    partner_organization,
+    student_category,
+
+    /* Location */
+    country,
+    state_union_territory,
+    district,
+    city_category,
+
+    form_details,
+
+    /* Audit Columns */
+    student_inserted_at,
+    student_updated_at,
+    education_inserted_at,
+    education_updated_at,
+    registration_inserted_at,
+    registration_updated_at
+
+FROM {{ ref('student_demography') }}
