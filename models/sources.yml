@@ -26,7 +26,7 @@ sources:
         description: "student assignment submission details"
       - name: student_details
         description: "student personal information details"
-      - name: student_eduaction
+      - name: student_education
         description: "student education details"
       - name: student_pre_recorded
         description: "student pre_recorded sessions attendance details"
