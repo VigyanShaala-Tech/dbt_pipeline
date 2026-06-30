@@ -42,6 +42,9 @@ sources:
         description: "standardised file for universities data"
       - name: student_cohort
         description: "student cohort mapping details"
+      - name: resource_cohort
+        description: "resource cohort mapping details"
+
 
   - name: old
     schema: old
