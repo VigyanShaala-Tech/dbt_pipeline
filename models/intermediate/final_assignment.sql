@@ -46,3 +46,7 @@ LEFT JOIN {{ source('raw', 'student_cohort') }} sc
 
 LEFT JOIN {{ source('raw', 'resource') }} r
     ON sa.resource_id = r.id
+
+INNER JOIN {{ source('raw', 'resource_cohort') }} rc
+    ON rc.resource_id = sa.resource_id
+   AND rc.cohort_code = sa.cohort_code
