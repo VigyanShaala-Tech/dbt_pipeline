@@ -44,6 +44,16 @@ sources:
         description: "student cohort mapping details"
       - name: resource_cohort
         description: "resource cohort mapping details"
+      - name: openedx_auth_user
+        description: "Open edX user account — id, email, first_name, last_name, date_joined, is_active"
+      - name: openedx_auth_userprofile
+        description: "Open edX user profile — gender, phone_number, name"
+      - name: openedx_user_metadata_app_usermetadata
+        description: "Open edX extended registration metadata (response_data JSONB: date_of_birth, caste, annual_family_income_inr, country, state_union_territory, district, city_category)"
+      - name: openedx_cohort_management_form_cohortformsubmission
+        description: "Open edX registration/education form submissions"
+      - name: openedx_cohort_management_form_cohortformcourseassignment
+        description: "Open edX course assignment per submission — course_id"
 
 
   - name: old
