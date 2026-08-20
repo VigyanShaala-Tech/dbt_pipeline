@@ -101,17 +101,27 @@ conflicts as (
 final as (
 
     select
-        coalesce(cast(r.student_id as text), {{ dbt_utils.generate_surrogate_key(['oe.openedx_user_id']) }}) as student_id,
+        coalesce(
+            cast(r.student_id as text),
+            'openedx_' || oe.openedx_user_id::text
+        ) as student_id,
+
         oe.openedx_user_id,
+
         coalesce(r.matched_by, 'unmatched') as matched_by,
         r.matched_value,
-        current_timestamp                   as matched_at,
-        true                                 as is_current
+        current_timestamp as matched_at,
+        true as is_current
 
     from openedx_normalized oe
+
     left join resolved_matches r
         on oe.openedx_user_id = r.openedx_user_id
-    where oe.openedx_user_id not in (select openedx_user_id from conflicts)
+
+    where oe.openedx_user_id not in (
+        select openedx_user_id
+        from conflicts
+    )
 
 )
 
