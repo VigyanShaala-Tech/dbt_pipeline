@@ -54,6 +54,16 @@ sources:
         description: "Open edX registration/education form submissions"
       - name: openedx_cohort_management_form_cohortformcourseassignment
         description: "Open edX course assignment per submission — course_id"
+      - name: openedx_course_overviews_courseoverview
+        description: "Open edX course/cohort master data — id (course key), number, display_name, start, end"
+      - name: openedx_zoom_integration_meetings
+        description: "Open edX live-session master data — internal_id, course_id, topic, duration, start_time"
+      - name: modulestore_definitions
+        description: "Open edX content catalog. SOURCE SYSTEM IS MONGODB, not Postgres/MySQL like every other table here"
+      - name: openedx_edxval_video
+        description: "Open edX video metadata. SOURCE SYSTEM IS A SEPARATE MYSQL DATABASE (edxval)"
+      - name: openedx_student_courseenrollment
+        description: "Open edX enrollment events — user_id, course_id, created, is_active"
 
 
   - name: old
