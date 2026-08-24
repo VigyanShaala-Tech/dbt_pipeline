@@ -13,7 +13,17 @@ with osot_rows as (
         sa.resource_id::text as resource_id,
         sa.mentor_id::text as mentor_id,
         sa.cohort_code::text as cohort_code,
-        sa.submission_status::text as submission_status,
+        case
+            when lower(trim(sa.submission_status::text)) = 'reviewed'
+                then 'accepted'
+            when lower(trim(sa.submission_status::text)) = 'rejected'
+                then 'reattempt'
+            when lower(trim(sa.submission_status::text)) = 'under review'
+                then 'under review'
+            when lower(trim(sa.submission_status::text)) = 'submitted'
+                then 'submitted'
+            else sa.submission_status::text
+        end::text as submission_status,
 
         -- OSOT source only contains marks_pct
         null::numeric as marks,
@@ -85,7 +95,17 @@ openedx_rows as (
 
         ts.course_key::text as cohort_code,
 
-        ts.status::text as submission_status,
+        case
+            when lower(trim(ts.status::text)) = 'approved'
+                then 'accepted'
+            when lower(trim(ts.status::text)) = 'draft'
+                then 'draft'
+            when lower(trim(ts.status::text)) = 'rejected'
+                then 'reattempt'
+            when lower(trim(ts.status::text)) = 'submitted'
+                then 'under review'
+            else ts.status::text
+        end::text as submission_status,
 
         f.marks::numeric as marks,
 
