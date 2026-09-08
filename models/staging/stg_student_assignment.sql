@@ -65,7 +65,7 @@ openedx_feedback as (
             count(criterion.value) * 10
         )::numeric as max_marks
 
-    from {{ source('raw', 'openedx_tas_app_instructorfeedback') }} ifb
+    from {{ source('raw', 'Openedx_tas_app_instructorfeedback') }} ifb
 
     left join lateral
         jsonb_array_elements(
@@ -128,7 +128,7 @@ openedx_rows as (
 
         'Open edX'::text as source_system
 
-    from {{ source('raw', 'openedx_tas_app_submission') }} ts
+    from {{ source('raw', 'Openedx_tas_app_submission') }} ts
 
     inner join {{ ref('stg_student_id_xref') }} x
         on x.openedx_user_id = ts.student_id

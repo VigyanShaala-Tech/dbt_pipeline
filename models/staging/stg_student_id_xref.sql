@@ -28,8 +28,8 @@ openedx_normalized as (
         lower(trim(au.email))                          as email_norm,
         regexp_replace(up.phone_number, '[^0-9+]', '', 'g') as phone_norm
 
-    from {{ source('raw', 'openedx_auth_user') }} au
-    left join {{ source('raw', 'openedx_auth_userprofile') }} up
+    from {{ source('raw', 'Openedx_auth_user') }} au
+    left join {{ source('raw', 'Openedx_auth_userprofile') }} up
         on up.user_id = au.id
 
 ),

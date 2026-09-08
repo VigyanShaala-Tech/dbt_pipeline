@@ -56,7 +56,7 @@ openedx_session as (
 
         'Open edX'::text as source_system
 
-    from {{ source('raw', 'openedx_zoom_integration_meetings') }}
+    from {{ source('raw', 'Openedx_zoom_integration_meetings') }}
 
 )
 

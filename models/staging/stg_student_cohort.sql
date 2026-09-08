@@ -43,12 +43,12 @@ openedx_rows as (
 
         'Open edX'::text as source_system
 
-    from {{ source('raw', 'openedx_student_courseenrollment') }} sce
+    from {{ source('raw', 'Openedx_student_courseenrollment') }} sce
 
     inner join {{ ref('stg_student_id_xref') }} x
         on x.openedx_user_id = sce.user_id
 
-    inner join {{ source('raw', 'openedx_course_overviews_courseoverview') }} co
+    inner join {{ source('raw', 'Openedx_course_overviews_courseoverview') }} co
         on co.id = sce.course_id
 
     inner join {{ ref('stg_cohort') }} sc

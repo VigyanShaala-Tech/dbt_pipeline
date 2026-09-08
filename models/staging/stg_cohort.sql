@@ -51,7 +51,7 @@ openedx_cohort as (
 
         'Open edX'::text as source_system
 
-    from {{ source('raw', 'openedx_course_overviews_courseoverview') }}
+    from {{ source('raw', 'Openedx_course_overviews_courseoverview') }}
 
 )
 
