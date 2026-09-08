@@ -50,7 +50,7 @@ occurrence_attendees as (
         participant.value ->> 'leave_time'
             as leave_time_raw
 
-    from {{ source('raw', 'openedx_zoom_integration_occurrences') }} o
+    from {{ source('raw', 'Openedx_zoom_integration_occurrences') }} o
 
     left join lateral
         jsonb_array_elements(
@@ -72,7 +72,7 @@ matched_users as (
 
     from occurrence_attendees oa
 
-    left join {{ source('raw', 'openedx_auth_user') }} au
+    left join {{ source('raw', 'Openedx_auth_user') }} au
         on lower(trim(au.email)) = oa.attendee_email_norm
 
 ),

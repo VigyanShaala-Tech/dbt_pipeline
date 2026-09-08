@@ -35,7 +35,7 @@ openedx_rows as (
 
     from {{ source(
         'raw',
-        'openedx_cohort_management_form_cohortformsubmission'
+        'Openedx_cohort_management_form_cohortformsubmission'
     ) }} cfs
 
     inner join {{ ref('stg_student_id_xref') }} x

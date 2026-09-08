@@ -43,7 +43,7 @@ openedx_rows as (
 
         'Open edX'::text as source_system
 
-    from {{ source('raw', 'openedx_courseware_studentmodule') }} csm
+    from {{ source('raw', 'Openedx_courseware_studentmodule') }} csm
 
     inner join {{ ref('stg_student_id_xref') }} x
         on x.openedx_user_id = csm.student_id

@@ -87,12 +87,12 @@ openedx_base as (
         um.created as inserted_at,
         um.modified as updated_at
 
-    from {{ source('raw', 'openedx_auth_user') }} au
+    from {{ source('raw', 'Openedx_auth_user') }} au
 
-    left join {{ source('raw', 'openedx_auth_userprofile') }} up
+    left join {{ source('raw', 'Openedx_auth_userprofile') }} up
         on up.user_id = au.id
 
-    left join {{ source('raw', 'openedx_user_metadata_app_usermetadata') }} um
+    left join {{ source('raw', 'Openedx_user_metadata_app_usermetadata') }} um
         on um.user_id = au.id
 
 ),
