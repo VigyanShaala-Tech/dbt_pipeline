@@ -58,7 +58,7 @@ sources:
         description: "Open edX course/cohort master data — id (course key), number, display_name, start, end"
       - name: Openedx_zoom_integration_meetings
         description: "Open edX live-session master data — internal_id, course_id, topic, duration, start_time"
-      - name: modulestore_definitions
+      - name: Openedx_course_content_catalog_coursecontentblock
         description: "Open edX content catalog. SOURCE SYSTEM IS MONGODB, not Postgres/MySQL like every other table here"
       - name: Openedx_edxval_video
         description: "Open edX video metadata. SOURCE SYSTEM IS A SEPARATE MYSQL DATABASE (edxval)"
