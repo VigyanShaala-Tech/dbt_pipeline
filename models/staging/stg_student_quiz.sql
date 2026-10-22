@@ -1,3 +1,4 @@
+
 {{
   config(
     materialized='table',
@@ -27,19 +28,18 @@ openedx_rows as (
 
     select
         x.student_id::text as student_id,
-
         csm.module_id::text as resource_id,
-
         csm.course_id::text as cohort_code,
 
-        csm.max_grade::numeric as marks,
+        sum(csm.grade::numeric) as marks,
 
-        20::numeric as max_marks,
+        15::numeric as max_marks,
 
-        (csm.state::jsonb ->> 'attempts')::integer
-            as reattempts,
+        max(
+            (csm.state::jsonb ->> 'attempts')::integer
+        ) as reattempts,
 
-        csm.created as attempted_at,
+        max(csm.created) as attempted_at,
 
         'Open edX'::text as source_system
 
@@ -50,6 +50,10 @@ openedx_rows as (
 
     where csm.module_type = 'problem'
 
+    group by
+        x.student_id,
+        csm.module_id,
+        csm.course_id
 )
 
 select * from osot_rows
