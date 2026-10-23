@@ -23,7 +23,7 @@ with osot_rows as (
 occurrence_attendees as (
 
     select
-        o.internal_id::text as session_id,
+        o.meeting_id::text as session_id,
 
         o.start_time,
 
