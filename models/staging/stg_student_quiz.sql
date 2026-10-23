@@ -24,36 +24,41 @@ with osot_rows as (
 ),
 
 -- Open edX quiz records
-openedx_rows as (
+openedx_rows AS (
 
-    select
-        x.student_id::text as student_id,
-        csm.module_id::text as resource_id,
-        csm.course_id::text as cohort_code,
+    SELECT
+        x.student_id::text AS student_id,
+
+        (ARRAY_AGG(
+            csm.module_id::text
+            ORDER BY csm.created DESC NULLS LAST
+        ))[1] AS resource_id,
+
+        csm.course_id::text AS cohort_code,
         TRIM(ccb.subsection_name) AS quiz_name,
-        sum(csm.grade::numeric) as marks,
 
-        15::numeric as max_marks,
+        SUM(csm.grade::numeric) AS marks,
+        15::numeric AS max_marks,
 
-        max(
+        MAX(
             (csm.state::jsonb ->> 'attempts')::integer
-        ) as reattempts,
+        ) AS reattempts,
 
-        max(csm.created) as attempted_at,
+        MAX(csm.created) AS attempted_at,
 
-        'Open edX'::text as source_system
+        'Open edX'::text AS source_system
 
-    from {{ source('raw', 'Openedx_courseware_studentmodule') }} csm
+    FROM {{ source('raw', 'Openedx_courseware_studentmodule') }} csm
 
-    inner join {{ ref('stg_student_id_xref') }} x
-        on x.openedx_user_id = csm.student_id
+    INNER JOIN {{ ref('stg_student_id_xref') }} x
+        ON x.openedx_user_id = csm.student_id
 
     INNER JOIN {{ source('raw', 'Openedx_course_content_catalog_coursecontentblock') }} ccb
         ON TRIM(csm.module_id::text) = TRIM(ccb.usage_key::text)
 
-    where csm.module_type = 'problem'
+    WHERE csm.module_type = 'problem'
 
-    group by
+    GROUP BY
         x.student_id,
         csm.course_id,
         TRIM(ccb.subsection_name)
