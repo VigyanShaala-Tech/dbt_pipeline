@@ -57,7 +57,7 @@ openedx_rows AS (
         ON TRIM(csm.module_id::text) = TRIM(ccb.usage_key::text)
 
     WHERE csm.module_type = 'problem'
-
+    AND TRIM(ccb.subsection_name) ILIKE 'quiz%'
     GROUP BY
         x.student_id,
         csm.course_id,
