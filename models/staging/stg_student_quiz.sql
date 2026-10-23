@@ -30,7 +30,7 @@ openedx_rows as (
         x.student_id::text as student_id,
         csm.module_id::text as resource_id,
         csm.course_id::text as cohort_code,
-
+        TRIM(ccb.subsection_name) AS quiz_name,
         sum(csm.grade::numeric) as marks,
 
         15::numeric as max_marks,
@@ -48,14 +48,38 @@ openedx_rows as (
     inner join {{ ref('stg_student_id_xref') }} x
         on x.openedx_user_id = csm.student_id
 
+    INNER JOIN {{ source('raw', 'Openedx_course_content_catalog_coursecontentblock') }} ccb
+        ON TRIM(csm.module_id::text) = TRIM(ccb.usage_key::text)
+
     where csm.module_type = 'problem'
 
     group by
         x.student_id,
         csm.module_id,
-        csm.course_id
+        csm.course_id,
+        TRIM(ccb.subsection_name)
 )
 
-select * from osot_rows
-union all
-select * from openedx_rows
+SELECT
+    student_id,
+    resource_id,
+    cohort_code,
+    marks,
+    max_marks,
+    reattempts,
+    attempted_at,
+    source_system
+FROM osot_rows
+
+UNION ALL
+
+SELECT
+    student_id,
+    resource_id,
+    cohort_code,
+    marks,
+    max_marks,
+    reattempts,
+    attempted_at,
+    source_system
+FROM openedx_rows
