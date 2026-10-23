@@ -55,7 +55,6 @@ openedx_rows as (
 
     group by
         x.student_id,
-        csm.module_id,
         csm.course_id,
         TRIM(ccb.subsection_name)
 )
