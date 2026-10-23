@@ -32,7 +32,7 @@ openedx_session as (
     select
         concat('OPENEDX_', internal_id::text) as live_session_id,
 
-        internal_id::text as openedx_session_id,
+        id::text as openedx_session_id,
 
         course_id::text as cohort_code,
         topic::text as session_name,
