@@ -27,4 +27,4 @@ SELECT
 FROM raw."Openedx_tas_app_template" t
 
 INNER JOIN raw."Openedx_tas_app_templateblock" tb
-    ON t.id = tb.template_id;
+    ON t.id = tb.template_id
