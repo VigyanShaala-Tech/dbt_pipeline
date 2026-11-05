@@ -52,7 +52,7 @@ openedx_rows as (
         on co.id = sce.course_id
 
     inner join {{ ref('stg_cohort') }} sc
-        on sc.cohort_name = co.display_name
+        on sc.cohort_code = co.id
        and sc.source_system = 'Open edX'
 
 )
