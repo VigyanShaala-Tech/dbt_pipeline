@@ -1,7 +1,10 @@
 
 {{
   config(
-    materialized='table',
+    materialized='incremental',
+    unique_key='cohort_code',
+    incremental_strategy='merge',
+    merge_exclude_columns=['cohort_number', 'type'],
     tags=['staging', 'cohort']
   )
 }}
