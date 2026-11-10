@@ -15,7 +15,7 @@ student_cohort AS (
     SELECT DISTINCT
         student_id,
         cohort_code
-    FROM dev_staging.stg_student_cohort
+    FROM staging.stg_student_cohort
 ),
 
 student_registration AS (
